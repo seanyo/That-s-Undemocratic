@@ -67,7 +67,8 @@ if( isset($_REQUEST['submit']) ) {
 		'meme_top' => db_escape($top_text),
 		'meme_bot' => db_escape($bot_text),
 		'meme_rating' => 0,
-		'meme_rated_by' => 0
+		'meme_rated_by' => 0,
+		'meme_created' => time()
 	);
 
 	$sql = "INSERT INTO meme (".join(",",array_keys($dat)).") VALUES ('".join("', '",array_values($dat))."')";

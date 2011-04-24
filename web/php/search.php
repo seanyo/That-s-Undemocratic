@@ -55,6 +55,8 @@ if( db_query($sql) === false ) {
 		unset($row['meme_delete']);
 		foreach( $row as $k => $v )
 			$row[$k] = stripslashes($v);
+		if( $row['meme_rated_by'] > 0 )
+			$row['rating'] = round($row['meme_rating']/$row['meme_rated_by']);
 
 		$ret[] = $row;
 	}

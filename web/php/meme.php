@@ -30,6 +30,12 @@ if( !empty($_URL[1]) ) {
 
 	if( !db_query($sql) )
 		$memes = false;
-	else
-		$memes = db_get_array();
+	else {
+		$memes = array();
+		foreach( db_get_array() as $row ) {
+			if( $row['meme_rated_by'] > 0 )
+				$row['rating'] = round($row['meme_rating'] / $row['meme_rated_by']);
+			$memes[] = $row;
+		}
+	}
 }
