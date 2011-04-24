@@ -1,1 +1,2 @@
-<p>Footer Template</p>
+<!-- This is tpl/footer.php -->
+</body></html>

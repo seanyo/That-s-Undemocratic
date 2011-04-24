@@ -1,6 +1,5 @@
 <?php
 
-require("lib/config.php");
 require("lib/main.php");
 
 $_URL = $_SERVER['REQUEST_URI'];
@@ -19,26 +18,27 @@ else
 
 if( empty($_URL[count($_URL)-1]) ) unset($_URL[count($_URL)-1]);
 
-$output = "json";
-if( strpos($_URL[count($_URL)-1],".") !== false ) {
-        list($base,$ext) = explode(".",$_URL[count($_URL)-1]);
-        $type = "";
-        switch( $ext ) {
-                case "json":
-                case "xml":
-                        $type = $ext;
-                        break;
-        }
-
-        if( !empty($type) )
-                $output = $type;
-
-        $_URL[count($_URL)-1] = $base;
-
-}
-
 $data = false;
+$template = ($_URL[0]=='default')?'default':false;
+$title = "";
 if( file_exists("php/".$_URL[0].".php") ) {
         $error = false;
         require("php/".$_URL[0].".php");
+} else if( file_exists("tpl/".$_URL[0].".php") ) {
+	$template = $_URL[0];
+	require("lib/static.php");
+	if( isset($_STATIC_TITLES[$_URL[0]]) )
+		$title = $_STATIC_TITLES[$_URL[0]];
+}
+
+if( $template !== false ) {
+	if( $title != "" ) $title .= " | ";
+	$title .= "That's Undemocratic!";
+
+	require("tpl/header.php");
+	if( file_exists("tpl/".$template.".php") )
+		require("tpl/$template.php");
+	else
+		echo '<p>Invalid template... 404?</p>';
+	require("tpl/footer.php");
 }

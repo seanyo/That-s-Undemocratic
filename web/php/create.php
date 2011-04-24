@@ -1,8 +1,5 @@
 <?php
 
-define( "FONT_SIZE", 44 );
-define( "IMGUR_KEY", 'ae487c64388fb0b91cd5f1b2cb4675be' );
-
 if( isset($_REQUEST['submit']) ) {
 	need_database();
 
@@ -13,7 +10,7 @@ if( isset($_REQUEST['submit']) ) {
 	$stroke = imagecolorallocate($img,0,0,0);
 
 	$top_text = strtoupper(stripslashes(urldecode($_REQUEST['captionOne'])));
-	$top = wordwrap($top_text,26,"\n",true);
+	$top = wordwrap($top_text,PER_LINE,"\n",true);
 	$y = FONT_SIZE+round(FONT_SIZE/4);
 	foreach( explode("\n",$top) as $line ) {
 		$box = imagettfbbox(FONT_SIZE,0,"league-gothic.ttf",$line);
@@ -23,11 +20,13 @@ if( isset($_REQUEST['submit']) ) {
 	}
 
 	$bot_text = strtoupper(stripslashes(urldecode($_REQUEST['captionTwo'])));
-	$bot = explode("\n",wordwrap($bot_text,26,"\n",true));
+	$bot = explode("\n",wordwrap($bot_text,PER_LINE,"\n",true));
 	if( count($bot) == 1 )
 		$y = imagesy($img) - round(FONT_SIZE/4);
 	else
 		$y = imagesy($img) - ((count($bot)-1) * FONT_SIZE) - FONT_SIZE;
+
+	$y -= BOTTOM_GUTTER;
 
 	foreach( $bot as $line ) {
 		$box = imagettfbbox(FONT_SIZE,0,"league-gothic.ttf",$line);
@@ -73,10 +72,9 @@ if( isset($_REQUEST['submit']) ) {
 
 	$sql = "INSERT INTO meme (".join(",",array_keys($dat)).") VALUES ('".join("', '",array_values($dat))."')";
 	db_query($sql);
-	file_put_contents("/tmp/image".time().".txt",print_r($dat,true));
-	error_log(db_error());
 	header( "Location: ".$dat['meme_page'] );
 	exit;
 } else {
-	// Show submission form
+	$template = "create";
+	$title = "Create a Meme";
 }
