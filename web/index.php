@@ -32,8 +32,14 @@ if( file_exists("php/".$_URL[0].".php") ) {
 }
 
 if( $template !== false ) {
-	if( $title != "" ) $title .= " | ";
-	$title .= "That's Undemocratic!";
+	$head_title = $title;
+	if( $head_title != "" ) {
+		$head_title .= " | ";
+	}
+	$head_title .= "That's Undemocratic!";
+
+	if( empty($title) )
+		$title = "That's Democratic!";
 
 	require("tpl/header.php");
 	if( file_exists("tpl/".$template.".php") )

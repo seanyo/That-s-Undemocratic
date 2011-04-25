@@ -25,8 +25,22 @@ if( !empty($_URL[1]) ) {
 	$template = "memes";
 	$title = "Latest Memes";
 
+	$total = db_query("SELECT count(*) AS total FROM meme");
+	$total = db_next_row();
+	$total = $total['total'];
+
+	$pages = ceil($total / SEARCH_RESULTS);
+
+	if( isset($_REQUEST['page']) )
+		$page = $_REQUEST['page'] - 1;
+	else
+		$page = 0;
+
+	$ppage = $page+1;
+	$offs = $page * SEARCH_RESULTS; 
+
 	// Get some of the latest memes
-	$sql = "SELECT * FROM meme ORDER BY meme_id DESC LIMIT 15";
+	$sql = "SELECT * FROM meme ORDER BY meme_id DESC LIMIT $offs,".SEARCH_RESULTS;
 
 	if( !db_query($sql) )
 		$memes = false;
