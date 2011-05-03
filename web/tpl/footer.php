@@ -1,2 +1,2 @@
-<!-- This is tpl/footer.php -->
+</div>
 </body></html>

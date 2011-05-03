@@ -1,6 +1,15 @@
 <?php
 
 if( isset($_REQUEST['submit']) ) {
+
+	if( empty($_POST['captionOne']) || empty($_POST['captionTwo']) ||
+		($_POST['captionOne']=='Put Your Text Here!') ) {
+
+		header( "Location: /" );
+		exit;
+
+	}
+
 	need_database();
 
 	$img = imagecreatefromstring(file_get_contents($_SERVER['DOCUMENT_ROOT']."/lib/base.jpg"));
@@ -73,7 +82,7 @@ if( isset($_REQUEST['submit']) ) {
 
 	$sql = "INSERT INTO meme (".join(",",array_keys($dat)).") VALUES ('".join("', '",array_values($dat))."')";
 	db_query($sql);
-	header( "Location: ".$dat['meme_page'] );
+	header( "Location: /meme/".$dat['meme_hash'] );
 	exit;
 } else {
 	$template = "create";

@@ -3,6 +3,12 @@
 require("lib/main.php");
 
 $_URL = $_SERVER['REQUEST_URI'];
+
+if( ($_URL != "/") && (substr($_URL,-1)=="/") ) {
+	header( "Location: ".substr($_URL,0,-1) );
+	exit;
+}
+
 $_QS = "";
 if( strpos($_URL,'?') !== false ) {
         list($_URL,$_QS) = explode("?",$_URL);
@@ -29,17 +35,15 @@ if( file_exists("php/".$_URL[0].".php") ) {
 	require("lib/static.php");
 	if( isset($_STATIC_TITLES[$_URL[0]]) )
 		$title = $_STATIC_TITLES[$_URL[0]];
+} else {
+	header( "HTTP/1.0 404 Not Found" );
+	require("php/default.php");
+	$template = "default";
 }
 
 if( $template !== false ) {
-	$head_title = $title;
-	if( $head_title != "" ) {
-		$head_title .= " | ";
-	}
-	$head_title .= "That's Undemocratic!";
-
-	if( empty($title) )
-		$title = "That's Democratic!";
+	if( $title != "" ) $title .= " | ";
+	$title .= "That's Undemocratic!";
 
 	require("tpl/header.php");
 	if( file_exists("tpl/".$template.".php") )

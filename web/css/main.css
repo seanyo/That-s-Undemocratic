@@ -1,0 +1,59 @@
+
+      input {
+        border-style: dotted;
+        background-color: transparent;
+        color: #ffffff;
+        font-size: 2.5em;
+        text-transform:uppercase;
+        font-family: 'Anton', arial, sans-serif;
+        text-align: center;
+        text-shadow: 1px 1px 1px #000000;
+      }
+
+      #captionOne {
+        margin-left: 10px;
+        margin-top: 10px;
+        width: 475px;
+      }
+
+      #captionTwo {
+        margin-left: 10px;
+        margin-top: 350px;
+        width: 475px;
+      }
+
+      #submit {
+        border-style: none;
+        background-color: black;
+        font-size: 2em;
+        margin-top: 35px;
+      }
+
+ul a {
+margin-left: 2em;
+display: inline;
+line-height: 80px;
+text-decoration: none;
+font-family: 'Anton', arial, sans-serif;
+font-size: 1.5em;
+color: black;
+}
+
+li {
+display: inline;
+}
+
+#nav {
+margin-top: .5em;
+border-top: 2px solid #000;
+border-bottom: 2px solid #000;
+}
+
+#intro {
+font-family: "Bentham", times, serif;
+font-size: 2em;
+line-height: 130%;
+color: #333;
+}
+
+.gallery .thumb { float: left; margin: 3px; }
